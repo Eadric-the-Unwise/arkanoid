@@ -48,6 +48,8 @@ typedef struct GameCharacter_t
     UBYTE flash;
     INT16 x;
     INT16 y;
+    INT16 SpdX;
+    INT16 SpdY;
     position_e position;
     direction_e direction;
 } GameCharacter_t;

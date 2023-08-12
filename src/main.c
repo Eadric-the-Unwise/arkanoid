@@ -20,6 +20,8 @@ UINT8 joy, last_joy; // CHECKS FOR CURRENT AND PREVIOUS JOY INPUTS IN MAIN WHILE
 GameCharacter_t PADDLE;
 GameCharacter_t BALL;
 
+UBYTE ball_moving;
+
 // set_sprite_data(0x24, 4, log_frog_tiles);
 // set_sprite_data(0x28, 4, fly_tiles);
 // set_bkg_data(0, 47, BKG_TILES);
@@ -64,6 +66,8 @@ void main()
     BALL.x = 0;
     BALL.y = PADDLE.y - 8;
 
+    BALL.SpdY = 2;
+
     while (1)
     {
         last_joy = joy;
@@ -77,6 +81,12 @@ void main()
         {
             PADDLE.x += 1;
         }
+        if (CHANGED_BUTTONS & J_A && !ball_moving)
+        {
+            ball_moving = TRUE;
+        }
+        if (ball_moving)
+            BALL.y -= BALL.SpdY;
         BALL.x = PADDLE.x;
         move_metasprite(PADDLE_METASPRITE, 0x00, 0, PADDLE.x, PADDLE.y);
         move_metasprite(BALL_METASPRITE, 0x02, 4, BALL.x, BALL.y);

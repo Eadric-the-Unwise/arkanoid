@@ -26,17 +26,17 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      00000003  l__HEADER |    00000003  l__HRAM12 |    00000005  l__HEADER
      00000006  l__HEADER |    00000007  l__HEADER |    00000008  l__HEADER
      0000000C  l__GSINIT |    00000025  l__INITIA |    00000025  l__INITIA
-     00000030  l__DATA   |    00000030  l__HEADER |    0000004C  l__HEADER
+     00000030  l__HEADER |    00000039  l__DATA   |    0000004C  l__HEADER
      0000005C  l__CODE_1 |    00000084  l__HEADER |    00000177  l__HOME  
-     000001AC  l__CODE   |    00000200  s__CODE   |    000003AC  s__HOME  
-     00000523  s__BASE   |    00000523  s__CODE_0 |    00000523  s__INITIA
-     00000523  s__LIT    |    00000548  s__GSINIT |    00000554  s__GSFINA
+     000001E9  l__CODE   |    00000200  s__CODE   |    000003E9  s__HOME  
+     00000560  s__BASE   |    00000560  s__CODE_0 |    00000560  s__INITIA
+     00000560  s__LIT    |    00000585  s__GSINIT |    00000591  s__GSFINA
      00002000  _rROMB0   |    00003000  _rROMB1   |    00004000  _rRAMB   
      00008000  __VRAM    |    00008000  __VRAM800 |    00008800  __VRAM880
      00009000  __VRAM900 |    00009800  __SCRN0   |    00009C00  __SCRN1  
      0000A000  __SRAM    |    0000C000  __RAM     |    0000C000  _shadow_O
-     0000C0A0  s__DATA   |    0000C0D0  s__BSS    |    0000C0D0  s__INITIA
-     0000C0F5  s__HEAP   |    0000C0F5  s__HEAP_E |    0000D000  __RAMBANK
+     0000C0A0  s__DATA   |    0000C0D9  s__BSS    |    0000C0D9  s__INITIA
+     0000C0FE  s__HEAP   |    0000C0FE  s__HEAP_E |    0000D000  __RAMBANK
      0000E000  .STACK    |    0000FE00  __OAMRAM  |    0000FF00  _P1_REG  
      0000FF00  __IO      |    0000FF01  _SB_REG   |    0000FF02  _SC_REG  
      0000FF04  _DIV_REG  |    0000FF05  _TIMA_REG |    0000FF06  _TMA_REG 
@@ -73,91 +73,105 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    000001AC =         428. bytes (REL,CON)
+_CODE                  00000200    000001E9 =         489. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00000200  A$lcc2778 |    00000200  C$main.c$ |    00000200  C$main.c$
-     00000200  G$load_sp |    00000200  _load_spr |    00000203  A$lcc2778
-     00000204  A$lcc2778 |    00000207  A$lcc2778 |    00000208  A$lcc2778
-     0000020B  A$lcc2778 |    0000020D  A$lcc2778 |    0000020D  C$main.c$
-     00000210  A$lcc2778 |    00000211  A$lcc2778 |    00000214  A$lcc2778
-     00000215  A$lcc2778 |    00000218  A$lcc2778 |    0000021A  A$lcc2778
-     0000021D  A$lcc2778 |    0000021F  A$lcc2778 |    00000222  A$lcc2778
-     00000224  A$lcc2778 |    00000224  C$main.c$ |    00000224  C$main.c$
-     00000224  XG$load_s |    00000225  A$lcc2778 |    00000225  C$main.c$
+     00000200  A$lcc3036 |    00000200  C$main.c$ |    00000200  C$main.c$
+     00000200  G$load_sp |    00000200  _load_spr |    00000203  A$lcc3036
+     00000204  A$lcc3036 |    00000207  A$lcc3036 |    00000208  A$lcc3036
+     0000020B  A$lcc3036 |    0000020D  A$lcc3036 |    0000020D  C$main.c$
+     00000210  A$lcc3036 |    00000211  A$lcc3036 |    00000214  A$lcc3036
+     00000215  A$lcc3036 |    00000218  A$lcc3036 |    0000021A  A$lcc3036
+     0000021D  A$lcc3036 |    0000021F  A$lcc3036 |    00000222  A$lcc3036
+     00000224  A$lcc3036 |    00000224  C$main.c$ |    00000224  C$main.c$
+     00000224  XG$load_s |    00000225  A$lcc3036 |    00000225  C$main.c$
      00000225  C$main.c$ |    00000225  G$main$0$ |    00000225  _main    
-     00000227  A$lcc2778 |    00000229  A$lcc2778 |    00000229  C$main.c$
-     0000022B  A$lcc2778 |    0000022D  A$lcc2778 |    0000022D  C$main.c$
-     0000022F  A$lcc2778 |    00000231  A$lcc2778 |    00000231  C$main.c$
-     00000234  A$lcc2778 |    00000234  C$main.c$ |    00000237  A$lcc2778
-     00000238  A$lcc2778 |    0000023B  A$lcc2778 |    0000023C  A$lcc2778
-     0000023F  A$lcc2778 |    00000241  A$lcc2778 |    00000241  C$main.c$
-     00000244  A$lcc2778 |    00000245  A$lcc2778 |    00000247  A$lcc2778
-     00000248  A$lcc2778 |    00000249  A$lcc2778 |    0000024A  A$lcc2778
-     0000024B  A$lcc2778 |    0000024C  A$lcc2778 |    0000024F  A$lcc2778
-     00000251  A$lcc2778 |    00000251  C$main.c$ |    00000252  A$lcc2778
-     00000254  A$lcc2778 |    00000254  C$main.c$ |    00000256  A$lcc2778
-     00000258  A$lcc2778 |    00000258  C$main.c$ |    0000025A  A$lcc2778
-     0000025C  A$lcc2778 |    0000025C  C$main.c$ |    0000025E  A$lcc2778
-     00000260  A$lcc2778 |    00000262  A$lcc2778 |    00000262  C$main.c$
-     00000264  A$lcc2778 |    00000266  A$lcc2778 |    00000268  A$lcc2778
-     00000268  C$main.c$ |    0000026A  A$lcc2778 |    0000026C  A$lcc2778
-     0000026E  A$lcc2778 |    0000026E  C$main.c$ |    00000270  A$lcc2778
-     00000272  A$lcc2778 |    00000274  A$lcc2778 |    00000274  C$main.c$
-     00000277  A$lcc2778 |    00000279  A$lcc2778 |    0000027A  A$lcc2778
-     0000027C  A$lcc2778 |    0000027C  C$main.c$ |    0000027F  A$lcc2778
-     00000281  A$lcc2778 |    00000282  A$lcc2778 |    00000284  A$lcc2778
-     00000284  C$main.c$ |    00000287  A$lcc2778 |    00000288  A$lcc2778
-     00000289  A$lcc2778 |    0000028A  A$lcc2778 |    0000028A  C$main.c$
-     0000028D  A$lcc2778 |    0000028E  A$lcc2778 |    0000028F  A$lcc2778
-     00000290  A$lcc2778 |    00000291  A$lcc2778 |    00000293  A$lcc2778
-     00000294  A$lcc2778 |    00000295  A$lcc2778 |    00000297  A$lcc2778
-     00000298  A$lcc2778 |    0000029B  A$lcc2778 |    0000029C  A$lcc2778
-     0000029D  A$lcc2778 |    0000029E  A$lcc2778 |    0000029E  C$main.c$
-     0000029E  C$main.c$ |    000002A1  A$lcc2778 |    000002A4  A$lcc2778
-     000002A4  C$main.c$ |    000002A7  A$lcc2778 |    000002AA  A$lcc2778
-     000002AB  A$lcc2778 |    000002AB  C$main.c$ |    000002AC  A$lcc2778
-     000002AC  C$main.c$ |    000002AF  A$lcc2778 |    000002B0  A$lcc2778
-     000002B1  A$lcc2778 |    000002B2  A$lcc2778 |    000002B2  C$main.c$
-     000002B4  A$lcc2778 |    000002B6  A$lcc2778 |    000002B6  C$main.c$
-     000002B7  A$lcc2778 |    000002B8  A$lcc2778 |    000002BB  A$lcc2778
-     000002BC  A$lcc2778 |    000002BD  A$lcc2778 |    000002BE  A$lcc2778
-     000002C0  A$lcc2778 |    000002C0  C$main.c$ |    000002C2  A$lcc2778
-     000002C4  A$lcc2778 |    000002C4  C$main.c$ |    000002C5  A$lcc2778
-     000002C6  A$lcc2778 |    000002C9  A$lcc2778 |    000002CA  A$lcc2778
-     000002CB  A$lcc2778 |    000002CC  A$lcc2778 |    000002CC  C$main.c$
+     00000227  A$lcc3036 |    00000229  A$lcc3036 |    00000229  C$main.c$
+     0000022B  A$lcc3036 |    0000022D  A$lcc3036 |    0000022D  C$main.c$
+     0000022F  A$lcc3036 |    00000231  A$lcc3036 |    00000231  C$main.c$
+     00000234  A$lcc3036 |    00000234  C$main.c$ |    00000237  A$lcc3036
+     00000238  A$lcc3036 |    0000023B  A$lcc3036 |    0000023C  A$lcc3036
+     0000023F  A$lcc3036 |    00000241  A$lcc3036 |    00000241  C$main.c$
+     00000244  A$lcc3036 |    00000245  A$lcc3036 |    00000247  A$lcc3036
+     00000248  A$lcc3036 |    00000249  A$lcc3036 |    0000024A  A$lcc3036
+     0000024B  A$lcc3036 |    0000024C  A$lcc3036 |    0000024F  A$lcc3036
+     00000251  A$lcc3036 |    00000251  C$main.c$ |    00000252  A$lcc3036
+     00000254  A$lcc3036 |    00000254  C$main.c$ |    00000256  A$lcc3036
+     00000258  A$lcc3036 |    00000258  C$main.c$ |    0000025A  A$lcc3036
+     0000025C  A$lcc3036 |    0000025C  C$main.c$ |    0000025E  A$lcc3036
+     00000260  A$lcc3036 |    00000262  A$lcc3036 |    00000262  C$main.c$
+     00000264  A$lcc3036 |    00000266  A$lcc3036 |    00000268  A$lcc3036
+     00000268  C$main.c$ |    0000026A  A$lcc3036 |    0000026C  A$lcc3036
+     0000026E  A$lcc3036 |    0000026E  C$main.c$ |    00000270  A$lcc3036
+     00000272  A$lcc3036 |    00000274  A$lcc3036 |    00000274  C$main.c$
+     00000277  A$lcc3036 |    00000279  A$lcc3036 |    0000027A  A$lcc3036
+     0000027C  A$lcc3036 |    0000027C  C$main.c$ |    0000027F  A$lcc3036
+     00000281  A$lcc3036 |    00000282  A$lcc3036 |    00000284  A$lcc3036
+     00000284  C$main.c$ |    00000287  A$lcc3036 |    00000288  A$lcc3036
+     00000289  A$lcc3036 |    0000028A  A$lcc3036 |    0000028A  C$main.c$
+     0000028D  A$lcc3036 |    0000028E  A$lcc3036 |    0000028F  A$lcc3036
+     00000290  A$lcc3036 |    00000291  A$lcc3036 |    00000293  A$lcc3036
+     00000294  A$lcc3036 |    00000295  A$lcc3036 |    00000297  A$lcc3036
+     00000298  A$lcc3036 |    0000029B  A$lcc3036 |    0000029C  A$lcc3036
+     0000029D  A$lcc3036 |    0000029E  A$lcc3036 |    0000029E  C$main.c$
+     000002A1  A$lcc3036 |    000002A3  A$lcc3036 |    000002A4  A$lcc3036
+     000002A6  A$lcc3036 |    000002A6  C$main.c$ |    000002A6  C$main.c$
+     000002A9  A$lcc3036 |    000002AC  A$lcc3036 |    000002AC  C$main.c$
+     000002AF  A$lcc3036 |    000002B2  A$lcc3036 |    000002B3  A$lcc3036
+     000002B3  C$main.c$ |    000002B4  A$lcc3036 |    000002B4  C$main.c$
+     000002B6  A$lcc3036 |    000002B8  A$lcc3036 |    000002B8  C$main.c$
+     000002BB  A$lcc3036 |    000002BC  A$lcc3036 |    000002BD  A$lcc3036
+     000002BE  A$lcc3036 |    000002BF  A$lcc3036 |    000002C2  A$lcc3036
+     000002C3  A$lcc3036 |    000002C4  A$lcc3036 |    000002C5  A$lcc3036
+     000002C7  A$lcc3036 |    000002C7  C$main.c$ |    000002C8  A$lcc3036
+     000002CA  A$lcc3036 |    000002CA  C$main.c$ |    000002CD  A$lcc3036
+     000002CE  A$lcc3036 |    000002CF  A$lcc3036 |    000002D0  A$lcc3036
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    000001AC =         428. bytes (REL,CON)
+_CODE                  00000200    000001E9 =         489. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     000002CF  A$lcc2778 |    000002D0  A$lcc2778 |    000002D1  A$lcc2778
-     000002D2  A$lcc2778 |    000002D5  A$lcc2778 |    000002D6  A$lcc2778
-     000002D7  A$lcc2778 |    000002D8  A$lcc2778 |    000002DB  A$lcc2778
-     000002DC  A$lcc2778 |    000002DF  A$lcc2778 |    000002E0  A$lcc2778
-     000002E3  A$lcc2778 |    000002E4  A$lcc2778 |    000002E5  A$lcc2778
-     000002E6  A$lcc2778 |    000002E7  A$lcc2778 |    000002EA  A$lcc2778
-     000002EB  A$lcc2778 |    000002EC  A$lcc2778 |    000002ED  A$lcc2778
-     000002F0  A$lcc2778 |    000002F2  A$lcc2778 |    000002F3  A$lcc2778
-     000002F4  A$lcc2778 |    000002F5  A$lcc2778 |    000002F6  A$lcc2778
-     000002F7  A$lcc2778 |    000002F8  A$lcc2778 |    000002F9  A$lcc2778
-     000002FA  A$lcc2778 |    000002FD  A$lcc2778 |    000002FF  A$lcc2778
-     00000302  A$lcc2778 |    00000303  A$lcc2778 |    00000306  A$lcc2778
-     00000307  A$lcc2778 |    0000030A  A$lcc2778 |    0000030B  A$lcc2778
-     0000030C  A$lcc2778 |    0000030D  A$lcc2778 |    0000030E  A$lcc2778
-     00000311  A$lcc2778 |    00000312  A$lcc2778 |    00000313  A$lcc2778
-     00000314  A$lcc2778 |    00000317  A$lcc2778 |    00000319  A$lcc2778
-     0000031A  A$lcc2778 |    0000031B  A$lcc2778 |    0000031C  A$lcc2778
-     0000031E  A$lcc2778 |    0000031F  A$lcc2778 |    00000322  A$lcc2778
-     00000324  A$lcc2778 |    00000324  C$main.c$ |    00000327  A$lcc2778
-     00000327  C$main.c$ |    0000032A  A$lcc2778 |    0000032A  C$main.c$
-     0000032A  XG$main$0 |    0000032D  G$arkanoi |    0000032D  _arkanoid
-     0000034D  G$black$0 |    0000034D  _black    |    0000036D  ___move_m
+     000002D1  A$lcc3036 |    000002D4  A$lcc3036 |    000002D5  A$lcc3036
+     000002D6  A$lcc3036 |    000002D7  A$lcc3036 |    000002D7  C$main.c$
+     000002DA  A$lcc3036 |    000002DD  A$lcc3036 |    000002DE  A$lcc3036
+     000002E0  A$lcc3036 |    000002E2  A$lcc3036 |    000002E5  A$lcc3036
+     000002E6  A$lcc3036 |    000002E7  A$lcc3036 |    000002E9  A$lcc3036
+     000002E9  C$main.c$ |    000002EB  A$lcc3036 |    000002EB  C$main.c$
+     000002EE  A$lcc3036 |    000002EF  A$lcc3036 |    000002F1  A$lcc3036
+     000002F1  C$main.c$ |    000002F4  A$lcc3036 |    000002F5  A$lcc3036
+     000002F6  A$lcc3036 |    000002F7  A$lcc3036 |    000002FA  A$lcc3036
+     000002FB  A$lcc3036 |    000002FC  A$lcc3036 |    000002FD  A$lcc3036
+     000002FE  A$lcc3036 |    000002FF  A$lcc3036 |    00000300  A$lcc3036
+     00000301  A$lcc3036 |    00000302  A$lcc3036 |    00000303  A$lcc3036
+     00000306  A$lcc3036 |    00000307  A$lcc3036 |    00000308  A$lcc3036
+     00000309  A$lcc3036 |    00000309  C$main.c$ |    0000030C  A$lcc3036
+     0000030D  A$lcc3036 |    0000030E  A$lcc3036 |    0000030F  A$lcc3036
+     00000312  A$lcc3036 |    00000313  A$lcc3036 |    00000314  A$lcc3036
+     00000315  A$lcc3036 |    00000318  A$lcc3036 |    00000319  A$lcc3036
+     0000031C  A$lcc3036 |    0000031D  A$lcc3036 |    00000320  A$lcc3036
+     00000321  A$lcc3036 |    00000322  A$lcc3036 |    00000323  A$lcc3036
+     00000324  A$lcc3036 |    00000327  A$lcc3036 |    00000328  A$lcc3036
+     00000329  A$lcc3036 |    0000032A  A$lcc3036 |    0000032D  A$lcc3036
+     0000032F  A$lcc3036 |    00000330  A$lcc3036 |    00000331  A$lcc3036
+     00000332  A$lcc3036 |    00000333  A$lcc3036 |    00000334  A$lcc3036
+     00000335  A$lcc3036 |    00000336  A$lcc3036 |    00000337  A$lcc3036
+     0000033A  A$lcc3036 |    0000033C  A$lcc3036 |    0000033F  A$lcc3036
+     00000340  A$lcc3036 |    00000343  A$lcc3036 |    00000344  A$lcc3036
+     00000347  A$lcc3036 |    00000348  A$lcc3036 |    00000349  A$lcc3036
+     0000034A  A$lcc3036 |    0000034B  A$lcc3036 |    0000034E  A$lcc3036
+     0000034F  A$lcc3036 |    00000350  A$lcc3036 |    00000351  A$lcc3036
+     00000354  A$lcc3036 |    00000356  A$lcc3036 |    00000357  A$lcc3036
+     00000358  A$lcc3036 |    00000359  A$lcc3036 |    0000035B  A$lcc3036
+     0000035C  A$lcc3036 |    0000035F  A$lcc3036 |    00000361  A$lcc3036
+     00000361  C$main.c$ |    00000364  A$lcc3036 |    00000364  C$main.c$
+     00000367  A$lcc3036 |    00000367  C$main.c$ |    00000367  XG$main$0
+     0000036A  G$arkanoi |    0000036A  _arkanoid |    0000038A  G$black$0
+     0000038A  _black    |    000003AA  ___move_m
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
 Hexadecimal  [32-Bits]
 
@@ -332,45 +346,45 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_HOME                  000003AC    00000177 =         375. bytes (REL,CON)
+_HOME                  000003E9    00000177 =         375. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     000003AC  .memset_s |    000003B5  .memcpy_s |    000003D2  .remove_V
-     000003D5  .remove_i |    000003F2  .add_VBL  |    000003F5  .add_int 
-     00000400  .wait_vbl |    00000400  _wait_vbl |    00000410  .display_
-     00000410  _display_ |    00000428  _remove_V |    00000433  _add_VBL 
-     0000043E  _set_tile |    00000443  _set_bkg_ |    00000443  _set_win_
-     0000044B  _set_spri |    0000047B  _fill_bkg |    0000048D  .padup   
-     0000048D  _waitpadu |    0000049D  .jpad     |    0000049D  _joypad  
-     000004C5  _waitpad  |    000004C6  .wait_pad |    000004CD  .fill_rec
-     000004D6  .fill_rec
+     000003E9  .memset_s |    000003F2  .memcpy_s |    0000040F  .remove_V
+     00000412  .remove_i |    0000042F  .add_VBL  |    00000432  .add_int 
+     0000043D  .wait_vbl |    0000043D  _wait_vbl |    0000044D  .display_
+     0000044D  _display_ |    00000465  _remove_V |    00000470  _add_VBL 
+     0000047B  _set_tile |    00000480  _set_bkg_ |    00000480  _set_win_
+     00000488  _set_spri |    000004B8  _fill_bkg |    000004CA  .padup   
+     000004CA  _waitpadu |    000004DA  .jpad     |    000004DA  _joypad  
+     00000502  _waitpad  |    00000503  .wait_pad |    0000050A  .fill_rec
+     00000513  .fill_rec
 ASxxxx Linker V03.00 + NoICE + sdld,  page 24.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZER           00000523    00000025 =          37. bytes (REL,CON)
+_INITIALIZER           00000560    00000025 =          37. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00000523  Fmain$__x
+     00000560  Fmain$__x
 ASxxxx Linker V03.00 + NoICE + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSINIT                00000548    0000000C =          12. bytes (REL,CON)
+_GSINIT                00000585    0000000C =          12. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00000548  gsinit   
+     00000585  gsinit   
 ASxxxx Linker V03.00 + NoICE + sdld,  page 26.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSFINAL               00000554    00000001 =           1. bytes (REL,CON)
+_GSFINAL               00000591    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -379,7 +393,7 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_DATA                  0000C0A0    00000030 =          48. bytes (REL,CON)
+_DATA                  0000C0A0    00000039 =          57. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -387,18 +401,19 @@ _DATA                  0000C0A0    00000030 =          48. bytes (REL,CON)
      0000C0A3  .sys_time |    0000C0A3  _sys_time |    0000C0A5  .int_0x40
      0000C0B1  G$scroll$ |    0000C0B1  _scroll   |    0000C0BB  G$joy$0_0
      0000C0BB  _joy      |    0000C0BC  G$last_jo |    0000C0BC  _last_joy
-     0000C0BD  G$PADDLE$ |    0000C0BD  _PADDLE   |    0000C0C5  G$BALL$0_
-     0000C0C5  _BALL     |    0000C0CD  ___curren |    0000C0CF  ___curren
+     0000C0BD  G$PADDLE$ |    0000C0BD  _PADDLE   |    0000C0C9  G$BALL$0_
+     0000C0C9  _BALL     |    0000C0D5  G$ball_mo |    0000C0D5  _ball_mov
+     0000C0D6  ___curren |    0000C0D8  ___curren
 ASxxxx Linker V03.00 + NoICE + sdld,  page 28.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZED           0000C0D0    00000025 =          37. bytes (REL,CON)
+_INITIALIZED           0000C0D9    00000025 =          37. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     0000C0D0  G$scroll_ |    0000C0D0  _scroll_r |    0000C0F4  ___render
+     0000C0D9  G$scroll_ |    0000C0D9  _scroll_r |    0000C0FD  ___render
 ASxxxx Linker V03.00 + NoICE + sdld,  page 29.
 Hexadecimal  [32-Bits]
 
@@ -431,15 +446,15 @@ _CODE_1                00014000    0000005C =          92. bytes (REL,CON)
 Files Linked                              [ module(s) ]
 
 C:\c_code\gbdk\lib/gb/crt0.o              [ Runtime ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc277800.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc303600.rel
                                           [ main ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc277801.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc303601.rel
                                           [ arkanoid_tiles ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc277802.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc303602.rel
                                           [ ball ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc277803.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc303603.rel
                                           [ black ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc277804.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc303604.rel
                                           [ paddle ]
 
 
