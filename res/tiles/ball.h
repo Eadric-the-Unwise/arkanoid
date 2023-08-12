@@ -8,22 +8,22 @@
 
 #define ball_TILE_ORIGIN 0
 #define ball_TILE_W 8
-#define ball_TILE_H 16
-#define ball_WIDTH 16
-#define ball_HEIGHT 16
-#define ball_TILE_COUNT 2
+#define ball_TILE_H 8
+#define ball_WIDTH 8
+#define ball_HEIGHT 8
+#define ball_TILE_COUNT 1
 #define ball_PALETTE_COUNT 1
 #define ball_COLORS_PER_PALETTE 4
 #define ball_TOTAL_COLORS 4
 #define ball_PIVOT_X -8
-#define ball_PIVOT_Y -16
-#define ball_PIVOT_W 16
-#define ball_PIVOT_H 16
+#define ball_PIVOT_Y -8
+#define ball_PIVOT_W 8
+#define ball_PIVOT_H 8
 
 BANKREF_EXTERN(ball)
 
 extern const palette_color_t ball_palettes[4];
-extern const uint8_t ball_tiles[32];
+extern const uint8_t ball_tiles[16];
 
 extern const metasprite_t* const ball_metasprites[1];
 

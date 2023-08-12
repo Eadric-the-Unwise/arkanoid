@@ -5,6 +5,7 @@
 #include "../res/tiles/paddle.h"
 #include "../res/tiles/arkanoid_tiles.h"
 #include "../res/tiles/ball.h"
+#include "../res/tiles/black.h"
 
 #define CHANGED_BUTTONS (last_joy ^ joy)
 #define CLICKED(x) ((joy & x) && (joy & x) != (last_joy & x))

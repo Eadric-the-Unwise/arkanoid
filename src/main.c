@@ -10,12 +10,15 @@
 //------------GOALS-------------//
 
 // extern const hUGESong_t sample_song;
+#define PADDLE_METASPRITE paddle_metasprites[0]
+#define BALL_METASPRITE ball_metasprites[0]
 
 UINT8 joy, last_joy; // CHECKS FOR CURRENT AND PREVIOUS JOY INPUTS IN MAIN WHILE()
 
-const uint8_t black[16] = {0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00};
+// const uint8_t black[16] = {0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01, 0xff, 0xff, 0xff, 0x00};
 
-GameCharacter_t PLAYER;
+GameCharacter_t PADDLE;
+GameCharacter_t BALL;
 
 // set_sprite_data(0x24, 4, log_frog_tiles);
 // set_sprite_data(0x28, 4, fly_tiles);
@@ -23,7 +26,17 @@ GameCharacter_t PLAYER;
 // set_bkg_data(47, 1, FROG_LIVES); // TESTING FROG LIFE UPDATE
 // set_bkg_data(0x80, 68, FONT);
 // set_bkg_tiles(0, 0, 32, 32, BKG_MAP);
-// set_bkg_tile_xy(4, 16, 0x90); // set furthest '0' on the righthand side of score on Stage 1 init only (is updated as soon as player gains points)
+// set_bkg_tile_xy(4, 16, 0x90); // set furthest '0' on the righthand side of score on Stage 1 init only (is updated as soon as PADDLE gains points)
+
+void load_sprites()
+{
+    // UINT8 hiwater = 0;
+    set_sprite_data(0, paddle_TILE_COUNT, paddle_tiles); // load paddle tiles into vram
+    // set_sprite_data(paddle_TILE_COUNT, ball_TILE_COUNT, ball_tiles); // load ball tiles into vram
+    set_sprite_tile(1, 0x00); // set paddle sprite in OAM
+    // hiwater += 3;                                                    // raise OAM hiwater for next OAM sprite (sizeof(paddle_tiles) >> 4)
+    // set_sprite_tile(3, 0x02); // set ball sprite in OAM
+}
 
 void main()
 {
@@ -32,11 +45,7 @@ void main()
     NR51_REG = 0xFF;
     NR50_REG = 0x77;
 
-    set_sprite_data(0, 2, paddle_tiles);
-    set_sprite_data(2, 2, ball_tiles);
-    set_sprite_tile(1, 0x01); // set paddle sprite in OAM
-    set_sprite_tile(2, 0x02); // set ball sprite in OAM
-    move_sprite(0x02, 72, 120);
+    load_sprites();
     set_bkg_data(1, 1, black);     // load black tile;
     fill_bkg_rect(0, 0, 20, 6, 1); // draw a column of black tiles over the screen to visualize scroll
 
@@ -45,15 +54,15 @@ void main()
     DISABLE_VBL_TRANSFER;
     OBP0_REG = 0b11100100;
     OBP1_REG = 0b10011100;
-    SPRITES_8x16; // MUST be 8x16 or 8x8. Can change in different scenes only
+    SPRITES_8x8; // MUST be 8x16 or 8x8. Can change in different scenes only
     SHOW_BKG;
     SHOW_SPRITES;
     DISPLAY_ON;
 
-    PLAYER.x = 72;
-    PLAYER.y = 128;
-
-    move_metasprite(paddle_metasprites[0], 0, 0, PLAYER.x, PLAYER.y);
+    PADDLE.x = 68; // dead center for PADDLE (-12 offset from 80)
+    PADDLE.y = 120;
+    // BALL.x = PADDLE.x;
+    // BALL.y = 120;
 
     while (1)
     {
@@ -62,13 +71,16 @@ void main()
 
         if (joy & J_LEFT) // play music
         {
-            PLAYER.x -= 1;
+            PADDLE.x -= 1;
         }
         else if (joy & J_RIGHT) // play music
         {
-            PLAYER.x += 1;
+            PADDLE.x += 1;
         }
-        move_metasprite(paddle_metasprites[0], 0, 0, PLAYER.x, PLAYER.y);
+        BALL.x = PADDLE.x;
+        move_metasprite(PADDLE_METASPRITE, 0x00, 0, PADDLE.x, PADDLE.y);
+        // move_sprite(3, BALL.x, BALL.y);
+
         wait_vbl_done();
         refresh_OAM();
     }

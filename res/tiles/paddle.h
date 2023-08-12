@@ -8,17 +8,17 @@
 
 #define paddle_TILE_ORIGIN 0
 #define paddle_TILE_W 8
-#define paddle_TILE_H 16
-#define paddle_WIDTH 16
-#define paddle_HEIGHT 16
+#define paddle_TILE_H 8
+#define paddle_WIDTH 24
+#define paddle_HEIGHT 8
 #define paddle_TILE_COUNT 2
 #define paddle_PALETTE_COUNT 1
 #define paddle_COLORS_PER_PALETTE 4
 #define paddle_TOTAL_COLORS 4
 #define paddle_PIVOT_X -8
 #define paddle_PIVOT_Y -16
-#define paddle_PIVOT_W 16
-#define paddle_PIVOT_H 16
+#define paddle_PIVOT_W 24
+#define paddle_PIVOT_H 8
 
 BANKREF_EXTERN(paddle)
 
