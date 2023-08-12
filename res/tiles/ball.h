@@ -16,7 +16,7 @@
 #define ball_COLORS_PER_PALETTE 4
 #define ball_TOTAL_COLORS 4
 #define ball_PIVOT_X -8
-#define ball_PIVOT_Y -8
+#define ball_PIVOT_Y -16
 #define ball_PIVOT_W 8
 #define ball_PIVOT_H 8
 

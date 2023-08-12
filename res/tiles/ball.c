@@ -22,7 +22,7 @@ const uint8_t ball_tiles[16] = {
 };
 
 const metasprite_t ball_metasprite0[] = {
-	METASPR_ITEM(8, 8, 0, 0), METASPR_TERM
+	METASPR_ITEM(16, 8, 0, 0), METASPR_TERM
 };
 
 const metasprite_t* const ball_metasprites[1] = {

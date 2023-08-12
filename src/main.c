@@ -31,11 +31,11 @@ GameCharacter_t BALL;
 void load_sprites()
 {
     // UINT8 hiwater = 0;
-    set_sprite_data(0, paddle_TILE_COUNT, paddle_tiles); // load paddle tiles into vram
-    // set_sprite_data(paddle_TILE_COUNT, ball_TILE_COUNT, ball_tiles); // load ball tiles into vram
-    set_sprite_tile(1, 0x00); // set paddle sprite in OAM
+    set_sprite_data(0, paddle_TILE_COUNT, paddle_tiles);             // load paddle tiles into vram
+    set_sprite_data(paddle_TILE_COUNT, ball_TILE_COUNT, ball_tiles); // load ball tiles into vram
+    set_sprite_tile(1, 0x00);                                        // set paddle sprite in OAM
     // hiwater += 3;                                                    // raise OAM hiwater for next OAM sprite (sizeof(paddle_tiles) >> 4)
-    // set_sprite_tile(3, 0x02); // set ball sprite in OAM
+    set_sprite_tile(3, 0x02); // set ball sprite in OAM
 }
 
 void main()
@@ -61,8 +61,8 @@ void main()
 
     PADDLE.x = 68; // dead center for PADDLE (-12 offset from 80)
     PADDLE.y = 120;
-    // BALL.x = PADDLE.x;
-    // BALL.y = 120;
+    BALL.x = 0;
+    BALL.y = PADDLE.y - 8;
 
     while (1)
     {
@@ -79,7 +79,7 @@ void main()
         }
         BALL.x = PADDLE.x;
         move_metasprite(PADDLE_METASPRITE, 0x00, 0, PADDLE.x, PADDLE.y);
-        // move_sprite(3, BALL.x, BALL.y);
+        move_metasprite(BALL_METASPRITE, 0x02, 4, BALL.x, BALL.y);
 
         wait_vbl_done();
         refresh_OAM();

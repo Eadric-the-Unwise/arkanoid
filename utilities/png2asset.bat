@@ -54,12 +54,12 @@
 
 @REM C:\c_code\gbdk\bin\png2asset res\tiles\ball.png -px -8 -py -16 -sw 16 -sh 16 -sp -spr8x16 -b 1 0x00 -keep_palette_order 
 
-C:\c_code\gbdk\bin\png2asset res\tiles\paddle.png -sw 24 -sh 8 -px -8 -py -16 -spr8x8 -b 1 0x00 -keep_palette_order 
+@REM C:\c_code\gbdk\bin\png2asset res\tiles\paddle.png -sw 24 -sh 8 -px -8 -py -16 -spr8x8 -b 1 0x00 -keep_palette_order 
 
-@REM C:\c_code\gbdk\bin\png2asset res\tiles\ball.png -sw 8 -sh 8 -px -8 -py -8 -spr8x8 -b 1 0x00 -keep_palette_order 
+C:\c_code\gbdk\bin\png2asset res\tiles\ball.png -sw 8 -sh 8 -px -8 -py -16 -spr8x8 -b 1 0x00 -keep_palette_order 
 
 
-
+@REM (-px -8 -py -16 seems to fix offset issues on both 8x8y and 28x8y)
 @REM -c ouput file (default: <png file>.c)
 @REM -sw <width> metasprites width size (default: png width)
 @REM -sh <height> metasprites height size (default: png height)
