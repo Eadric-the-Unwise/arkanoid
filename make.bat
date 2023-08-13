@@ -21,10 +21,10 @@ call .\clean.bat
 @REM sdar -ru lib/hUGEDriver.lib obj/hUGEDriver.o
 
 @set GBDK=C:\c_code\gbdk
-%GBDK%\bin\lcc.exe -autobank -Iinclude -Wl-llib/hUGEDriver.lib -Wf--debug -Wl-y -Wb-ext=.rel -Wb-v -Wl-yt0x1B -Wl-yoA -Wl-ya4 -o arkanoid.gb^
+%GBDK%\bin\lcc.exe -autobank -Iinclude -Wl-llib/hUGEDriver.lib  -Wl-y -Wb-ext=.rel -Wb-v -Wl-yt0x1B -Wl-yoA -Wl-ya4 -o arkanoid.gb^
  src\*.c  res\tiles\*.c
 @REM   sound\*.c
-
+@REM -Wf--debug
  
 
 

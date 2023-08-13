@@ -15,20 +15,12 @@
 
 UINT8 joy, last_joy; // CHECKS FOR CURRENT AND PREVIOUS JOY INPUTS IN MAIN WHILE()
 
-// const uint8_t black[16] = {0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01, 0xff, 0xff, 0xff, 0x00};
-
 GameCharacter_t PADDLE;
 GameCharacter_t BALL;
 
 UBYTE ball_moving;
-
-// set_sprite_data(0x24, 4, log_frog_tiles);
-// set_sprite_data(0x28, 4, fly_tiles);
-// set_bkg_data(0, 47, BKG_TILES);
-// set_bkg_data(47, 1, FROG_LIVES); // TESTING FROG LIFE UPDATE
-// set_bkg_data(0x80, 68, FONT);
-// set_bkg_tiles(0, 0, 32, 32, BKG_MAP);
-// set_bkg_tile_xy(4, 16, 0x90); // set furthest '0' on the righthand side of score on Stage 1 init only (is updated as soon as PADDLE gains points)
+#define COLLISION_MAP_SIZE sizeof(collision_map)
+unsigned char collision_map_ram[COLLISION_MAP_SIZE]; // ROM to WRAM copy of collision_map
 
 void load_sprites()
 {
@@ -40,6 +32,43 @@ void load_sprites()
     set_sprite_tile(3, 0x02); // set ball sprite in OAM
 }
 
+BYTE overlap(INT16 r1_y, INT16 r1_x, INT16 l1_y, INT16 l1_x, INT16 r2_y, INT16 r2_x, INT16 l2_y, INT16 l2_x)
+{ // BYTE IS SAME AS BOOLEAN (ONLY SHORTER NAME)
+    // Standard rectangle-to-rectangle collision check
+
+    if (l1_x == r1_x || l1_y == r1_y || l2_x == r2_x || l2_y == r2_y)
+    {
+        // the line cannot have positive overlap
+        return 0x00U;
+    }
+    if ((l1_x >= r2_x) || (l2_x >= r1_x))
+    {
+        return 0x00U;
+    }
+    if ((r1_y >= l2_y) || (r2_y >= l1_y))
+    {
+        return 0X00U;
+    }
+
+    return 0x01U;
+}
+
+void copy_collision_map() // copy ROM to WRAM
+{
+    // Copy data from ROM to RAM
+    memcpy(collision_map_ram, collision_map, COLLISION_MAP_SIZE);
+}
+
+void collision_check(UINT8 ballx, UINT8 bally)
+{
+    UINT8 topy, leftx, tileindex;
+    topy = bally / 8;                              // pixels to tiles y
+    leftx = ballx / 8;                             // pixels to tiles x
+    tileindex = collision_mapWidth * topy + ballx; // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
+
+    if (collision_map_ram[tileindex] == 0x01)
+        ball_moving = FALSE;
+}
 void main()
 {
 
@@ -48,6 +77,7 @@ void main()
     NR50_REG = 0x77;
 
     load_sprites();
+    copy_collision_map();
     set_bkg_data(1, 1, black);     // load black tile;
     fill_bkg_rect(0, 0, 20, 6, 1); // draw a column of black tiles over the screen to visualize scroll
 
@@ -86,10 +116,13 @@ void main()
             ball_moving = TRUE;
         }
         if (ball_moving)
+        {
+            collision_check(BALL.x, BALL.y);
             BALL.y -= BALL.SpdY;
+        }
         BALL.x = PADDLE.x;
         move_metasprite(PADDLE_METASPRITE, 0x00, 0, PADDLE.x, PADDLE.y);
-        move_metasprite(BALL_METASPRITE, 0x02, 4, BALL.x, BALL.y);
+        move_metasprite(BALL_METASPRITE, 0x02, 3, BALL.x, BALL.y);
 
         wait_vbl_done();
         refresh_OAM();
