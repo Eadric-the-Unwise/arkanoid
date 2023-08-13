@@ -5,7 +5,7 @@
  Map Include File.
 
  Info:
-   Section       : 
+   Section       :
    Bank          : 0
    Map size      : 20 x 18
    Tile set      : C:\c_code\projects\minigames\arkanoid\res\tiles\collision_tileset.gbr
@@ -25,6 +25,7 @@
 #define collision_mapBank 0
 
 extern const unsigned char collision_map[];
+#define COLLISION_MAP_SIZE sizeof(collision_map)
 
 #endif
 
