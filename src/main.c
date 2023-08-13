@@ -1,7 +1,7 @@
 #include <gb/gb.h>
 #include <gbdk/metasprites.h>
 #include <stdio.h>
-// #include <string.h>
+#include <string.h> // memcpy
 // #include <rand.h>
 // #include "../sound/hUGEDriver.h"
 // #include "../sound/sound.h"
