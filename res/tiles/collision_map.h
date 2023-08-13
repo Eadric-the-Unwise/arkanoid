@@ -25,7 +25,6 @@
 #define collision_mapBank 0
 
 extern const unsigned char collision_map[];
-#define COLLISION_MAP_SIZE sizeof(collision_map)
 
 #endif
 

@@ -4,6 +4,7 @@
         "scene.h": "c",
         "type_traits": "c",
         "string.h": "c",
-        "win_frog.h": "c"
+        "win_frog.h": "c",
+        "collision_map.h": "c"
     }
 }
