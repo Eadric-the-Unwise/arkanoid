@@ -8,10 +8,13 @@
 
 #define PADDLE_METASPRITE paddle_metasprites[0]
 #define BALL_METASPRITE ball_metasprites[0]
+#define YMIN 120                                                    // ball Y when touching paddle
+#define COLLISION_MAP_SIZE collision_mapWidth *collision_mapHeight  // calculate size of the collision map array
+#define ballSpdY 2                                                  // speed of ball
 
-extern const unsigned char collision_map[];
+extern const unsigned char collision_map[];  // ? do I need this here?
 
-const unsigned char blank_tile[1] = {0x00};
+const unsigned char blank_tile[1] = {0x00};  // blank tile after brick breaks
 
 UINT8 joy, last_joy;  // CHECKS FOR CURRENT AND PREVIOUS JOY INPUTS IN MAIN WHILE()
 
@@ -19,11 +22,10 @@ GameCharacter_t PADDLE;
 GameCharacter_t BALL;
 
 UBYTE ball_moving;
-#define COLLISION_MAP_SIZE collision_mapWidth *collision_mapHeight
-#define ballSpdY 2
+
 unsigned char collision_map_ram[COLLISION_MAP_SIZE];  // ROM to WRAM copy of collision_map
 
-void load_sprites() {
+void load_sprites() {  // load sprites into vram
     // UINT8 hiwater = 0;
     set_sprite_data(0, paddle_TILE_COUNT, paddle_tiles);              // load paddle tiles into vram
     set_sprite_data(paddle_TILE_COUNT, ball_TILE_COUNT, ball_tiles);  // load ball tiles into vram
@@ -37,18 +39,18 @@ void copy_collision_data()  // copy ROM to WRAM
     memcpy(ram_pointer, collision_map, COLLISION_MAP_SIZE);
 }
 
-void collision_check(UINT8 ballx, UINT8 bally) {
+void collision_check(UINT8 ballx, UINT8 bally) {    // check for ball collision with bricks
     UINT8 topy, leftx;                              // 0-255
     UINT16 tileindex;                               // 16 bit integer
     topy = bally / 8;                               // pixels to tiles y
     leftx = ballx / 8;                              // pixels to tiles x
     tileindex = collision_mapWidth * topy + leftx;  // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
 
-    if (collision_map_ram[tileindex] == 0x01) {
+    if (collision_map_ram[tileindex] == 0x01) {  // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
         // ball_moving = FALSE;
-        BALL.SpdY = -ballSpdY;                         // -2
-        set_bkg_tiles(leftx, topy, 1, 1, blank_tile);  // x, y, tile width, tile height, unsigned char tile[]{}
-        collision_map_ram[tileindex] = 0x00;
+        BALL.SpdY = -ballSpdY;                         // reverse ball speed
+        set_bkg_tiles(leftx, topy, 1, 1, blank_tile);  // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x, y, tile width, tile height, unsigned char tile[]{}
+        collision_map_ram[tileindex] = 0x00;           // UPDATE BRICK TO BECOME BLANK IN WRAM //
     }
 }
 
@@ -100,24 +102,22 @@ void main() {
         last_joy = joy;
         joy = joypad();
 
-        if (joy & J_LEFT)  // play music
-        {
-            PADDLE.x -= 1;
-        } else if (joy & J_RIGHT)  // play music
-        {
-            PADDLE.x += 1;
+        if (joy & J_LEFT) {
+            PADDLE.x -= 1;  // MOVE PADDLE LEFT
+        } else if (joy & J_RIGHT) {
+            PADDLE.x += 1;  // MOVE PADDLE RIGHT
         }
         if (CHANGED_BUTTONS & J_A && !ball_moving) {
-            ball_moving = TRUE;
+            ball_moving = TRUE;  // ball is moving, not in spawn position
         }
         if (ball_moving) {
-            collision_check(BALL.x, BALL.y);
-            BALL.y -= BALL.SpdY;
+            collision_check(BALL.x, BALL.y);  // check for brick collisions
+            BALL.y -= BALL.SpdY;              // move ball vertically
         } else {
-            BALL.x = PADDLE.x;  // ball follows paddle until player presses A to launch ball
+            BALL.x = PADDLE.x;  // ball spawns on paddle, follows paddle until player launches ball by pressing A
         }
-        move_metasprite(PADDLE_METASPRITE, 0x00, 0, PADDLE.x, PADDLE.y);
-        move_metasprite(BALL_METASPRITE, 0x02, 3, BALL.x, BALL.y);
+        move_metasprite(PADDLE_METASPRITE, 0x00, 0, PADDLE.x, PADDLE.y);  // update position on screen
+        move_metasprite(BALL_METASPRITE, 0x02, 3, BALL.x, BALL.y);        // update position on screen
 
         wait_vbl_done();
         refresh_OAM();
