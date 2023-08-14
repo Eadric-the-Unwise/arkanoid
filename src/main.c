@@ -11,6 +11,8 @@
 #define YMIN 120                                                    // ball Y when touching paddle
 #define COLLISION_MAP_SIZE collision_mapWidth *collision_mapHeight  // calculate size of the collision map array
 #define ballSpdY 2                                                  // speed of ball
+#define PADDLE_INITX 68
+#define PADDLE_INITY 120
 
 extern const unsigned char collision_map[];  // ? do I need this here?
 
@@ -48,7 +50,7 @@ void collision_check(UINT8 ballx, UINT8 bally) {    // check for ball collision 
 
     if (collision_map_ram[tileindex] == 0x01) {  // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
         // ball_moving = FALSE;
-        BALL.SpdY = -ballSpdY;                         // reverse ball speed
+        BALL.SpdY = -BALL.SpdY;                        // reverse ball speed
         set_bkg_tiles(leftx, topy, 1, 1, blank_tile);  // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x, y, tile width, tile height, unsigned char tile[]{}
         collision_map_ram[tileindex] = 0x00;           // UPDATE BRICK TO BECOME BLANK IN WRAM //
     }
@@ -91,9 +93,8 @@ void main() {
     SHOW_SPRITES;
     DISPLAY_ON;
 
-    PADDLE.x = 68;  // dead center for PADDLE (-12 offset from 80)
-    PADDLE.y = 120;
-    BALL.x = 0;
+    PADDLE.x = PADDLE_INITX;  // dead center for PADDLE (-12 offset from 80)
+    PADDLE.y = PADDLE_INITY;  // 120
     BALL.y = PADDLE.y - 8;
 
     BALL.SpdY = ballSpdY;  // 2
@@ -111,9 +112,11 @@ void main() {
             ball_moving = TRUE;  // ball is moving, not in spawn position
         }
         if (ball_moving) {
-            collision_check(BALL.x, BALL.y);  // check for brick collisions
-            BALL.y -= BALL.SpdY;              // move ball vertically
-        } else {
+            collision_check(BALL.x, BALL.y);                                                              // check for brick collisions
+            BALL.y -= BALL.SpdY;                                                                          // move ball vertically
+            if (BALL.y + ball_HEIGHT >= YMIN && BALL.x >= PADDLE.x && BALL.x <= PADDLE.x + paddle_WIDTH)  // check for paddle collision
+                BALL.SpdY = -BALL.SpdY;
+        } else {                // spawn
             BALL.x = PADDLE.x;  // ball spawns on paddle, follows paddle until player launches ball by pressing A
         }
         move_metasprite(PADDLE_METASPRITE, 0x00, 0, PADDLE.x, PADDLE.y);  // update position on screen
