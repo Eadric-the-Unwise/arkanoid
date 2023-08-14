@@ -27,16 +27,16 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      00000003  l__HRAM12 |    00000005  l__HEADER |    00000006  l__HEADER
      00000007  l__HEADER |    00000008  l__HEADER |    0000000C  l__GSINIT
      00000030  l__HEADER |    0000004C  l__HEADER |    0000005C  l__CODE_1
-     00000084  l__HEADER |    00000177  l__HOME   |    00000191  l__DATA  
-     00000200  s__CODE   |    00000472  l__CODE   |    00000672  s__HOME  
-     000007E9  s__BASE   |    000007E9  s__CODE_0 |    000007E9  s__INITIA
-     000007E9  s__LIT    |    000007EA  s__GSINIT |    000007F6  s__GSFINA
+     00000084  l__HEADER |    00000177  l__HOME   |    00000200  s__CODE  
+     00000429  l__DATA   |    0000072B  l__CODE   |    0000092B  s__HOME  
+     00000AA2  s__BASE   |    00000AA2  s__CODE_0 |    00000AA2  s__INITIA
+     00000AA2  s__LIT    |    00000AA3  s__GSINIT |    00000AAF  s__GSFINA
      00002000  _rROMB0   |    00003000  _rROMB1   |    00004000  _rRAMB   
      00008000  __VRAM    |    00008000  __VRAM800 |    00008800  __VRAM880
      00009000  __VRAM900 |    00009800  __SCRN0   |    00009C00  __SCRN1  
      0000A000  __SRAM    |    0000C000  __RAM     |    0000C000  _shadow_O
-     0000C0A0  s__DATA   |    0000C231  s__BSS    |    0000C231  s__INITIA
-     0000C232  s__HEAP   |    0000C232  s__HEAP_E |    0000D000  __RAMBANK
+     0000C0A0  s__DATA   |    0000C4C9  s__BSS    |    0000C4C9  s__INITIA
+     0000C4CA  s__HEAP   |    0000C4CA  s__HEAP_E |    0000D000  __RAMBANK
      0000E000  .STACK    |    0000FE00  __OAMRAM  |    0000FF00  _P1_REG  
      0000FF00  __IO      |    0000FF01  _SB_REG   |    0000FF02  _SC_REG  
      0000FF04  _DIV_REG  |    0000FF05  _TIMA_REG |    0000FF06  _TMA_REG 
@@ -73,14 +73,14 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    00000472 =        1138. bytes (REL,CON)
+_CODE                  00000200    0000072B =        1835. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
      00000200  _load_spr |    00000225  _overlap  |    000002F1  _copy_col
-     000002FF  _collisio |    00000339  _main     |    00000459  _arkanoid
-     00000479  _black    |    00000499  _collisio |    00000601  ___move_m
-     00000640  ___memcpy |    00000640  _memcpy  
+     000002FF  _collisio |    0000035A  _main     |    0000047A  _arkanoid
+     0000049A  _black    |    000004BA  _collisio |    000008BA  ___move_m
+     000008F9  ___memcpy |    000008F9  _memcpy  
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
@@ -255,25 +255,25 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_HOME                  00000672    00000177 =         375. bytes (REL,CON)
+_HOME                  0000092B    00000177 =         375. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00000672  .memset_s |    0000067B  .memcpy_s |    00000698  .remove_V
-     0000069B  .remove_i |    000006B8  .add_VBL  |    000006BB  .add_int 
-     000006C6  .wait_vbl |    000006C6  _wait_vbl |    000006D6  .display_
-     000006D6  _display_ |    000006EE  _remove_V |    000006F9  _add_VBL 
-     00000704  _set_tile |    00000709  _set_bkg_ |    00000709  _set_win_
-     00000711  _set_spri |    00000741  _fill_bkg |    00000753  .padup   
-     00000753  _waitpadu |    00000763  .jpad     |    00000763  _joypad  
-     0000078B  _waitpad  |    0000078C  .wait_pad |    00000793  .fill_rec
-     0000079C  .fill_rec
+     0000092B  .memset_s |    00000934  .memcpy_s |    00000951  .remove_V
+     00000954  .remove_i |    00000971  .add_VBL  |    00000974  .add_int 
+     0000097F  .wait_vbl |    0000097F  _wait_vbl |    0000098F  .display_
+     0000098F  _display_ |    000009A7  _remove_V |    000009B2  _add_VBL 
+     000009BD  _set_tile |    000009C2  _set_bkg_ |    000009C2  _set_win_
+     000009CA  _set_spri |    000009FA  _fill_bkg |    00000A0C  .padup   
+     00000A0C  _waitpadu |    00000A1C  .jpad     |    00000A1C  _joypad  
+     00000A44  _waitpad  |    00000A45  .wait_pad |    00000A4C  .fill_rec
+     00000A55  .fill_rec
 ASxxxx Linker V03.00 + NoICE + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZER           000007E9    00000001 =           1. bytes (REL,CON)
+_INITIALIZER           00000AA2    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -282,17 +282,17 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSINIT                000007EA    0000000C =          12. bytes (REL,CON)
+_GSINIT                00000AA3    0000000C =          12. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     000007EA  gsinit   
+     00000AA3  gsinit   
 ASxxxx Linker V03.00 + NoICE + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSFINAL               000007F6    00000001 =           1. bytes (REL,CON)
+_GSFINAL               00000AAF    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -301,7 +301,7 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_DATA                  0000C0A0    00000191 =         401. bytes (REL,CON)
+_DATA                  0000C0A0    00000429 =        1065. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -309,17 +309,17 @@ _DATA                  0000C0A0    00000191 =         401. bytes (REL,CON)
      0000C0A3  .sys_time |    0000C0A3  _sys_time |    0000C0A5  .int_0x40
      0000C0B1  _joy      |    0000C0B2  _last_joy |    0000C0B3  _PADDLE  
      0000C0BC  _BALL     |    0000C0C5  _ball_mov |    0000C0C6  _collisio
-     0000C22E  ___curren |    0000C230  ___curren
+     0000C4C6  ___curren |    0000C4C8  ___curren
 ASxxxx Linker V03.00 + NoICE + sdld,  page 27.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZED           0000C231    00000001 =           1. bytes (REL,CON)
+_INITIALIZED           0000C4C9    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     0000C231  ___render
+     0000C4C9  ___render
 ASxxxx Linker V03.00 + NoICE + sdld,  page 28.
 Hexadecimal  [32-Bits]
 
@@ -348,17 +348,17 @@ _CODE_1                00014000    0000005C =          92. bytes (REL,CON)
 Files Linked                              [ module(s) ]
 
 C:\c_code\gbdk\lib/gb/crt0.o              [ Runtime ]
-C:\Users\User\AppData\Local\Temp/lcc188040.rel
+C:\Users\User\AppData\Local\Temp/lcc55320.rel
                                           [ main ]
-C:\Users\User\AppData\Local\Temp/lcc188041.rel
+C:\Users\User\AppData\Local\Temp/lcc55321.rel
                                           [ arkanoid_tiles ]
-C:\Users\User\AppData\Local\Temp/lcc188042.rel
+C:\Users\User\AppData\Local\Temp/lcc55322.rel
                                           [ ball ]
-C:\Users\User\AppData\Local\Temp/lcc188043.rel
+C:\Users\User\AppData\Local\Temp/lcc55323.rel
                                           [ black ]
-C:\Users\User\AppData\Local\Temp/lcc188044.rel
+C:\Users\User\AppData\Local\Temp/lcc55324.rel
                                           [ collision_map ]
-C:\Users\User\AppData\Local\Temp/lcc188045.rel
+C:\Users\User\AppData\Local\Temp/lcc55325.rel
                                           [ paddle ]
 
 

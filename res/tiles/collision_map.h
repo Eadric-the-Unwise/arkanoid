@@ -5,9 +5,9 @@
  Map Include File.
 
  Info:
-   Section       :
+   Section       : 
    Bank          : 0
-   Map size      : 20 x 18
+   Map size      : 32 x 32
    Tile set      : C:\c_code\projects\minigames\arkanoid\res\tiles\collision_tileset.gbr
    Plane count   : 1 plane (8 bits)
    Plane order   : Tiles are continues
@@ -20,8 +20,8 @@
 #ifndef __collision_map_h_INCLUDE
 #define __collision_map_h_INCLUDE
 
-#define collision_mapWidth 20
-#define collision_mapHeight 18
+#define collision_mapWidth 32
+#define collision_mapHeight 32
 #define collision_mapBank 0
 
 extern const unsigned char collision_map[];

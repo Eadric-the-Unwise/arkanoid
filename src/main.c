@@ -53,12 +53,13 @@ void copy_collision_data()  // copy ROM to WRAM
 }
 
 void collision_check(UINT8 ballx, UINT8 bally) {
-    UINT8 topy, leftx, tileindex;
+    UINT8 topy, leftx;                              // 0-255
+    UINT16 tileindex;                               // 16 bit integer
     topy = bally / 8;                               // pixels to tiles y
     leftx = ballx / 8;                              // pixels to tiles x
-    tileindex = collision_mapWidth * topy + ballx;  // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
+    tileindex = collision_mapWidth * topy + leftx;  // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
 
-    if (collision_map_ram[tileindex] == 0x00)
+    if (collision_map_ram[tileindex] == 0x01)
         ball_moving = FALSE;
 }
 void main() {
@@ -66,8 +67,8 @@ void main() {
     NR51_REG = 0xFF;
     NR50_REG = 0x77;
 
-    load_sprites();  // load all sprite tiles into VRAM
-    // copy_collision_data(); //copy collision map array from ROM to RAM
+    load_sprites();                 // load all sprite tiles into VRAM
+    copy_collision_data();          // copy collision map array from ROM to RAM
     set_bkg_data(1, 1, black);      // load black tile;
     fill_bkg_rect(0, 0, 20, 6, 1);  // draw a column of black tiles over the screen to visualize scroll
 
