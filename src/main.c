@@ -9,10 +9,12 @@
 #define PADDLE_METASPRITE paddle_metasprites[0]
 #define BALL_METASPRITE ball_metasprites[0]
 #define YMIN 120                                                    // ball Y when touching paddle
+#define YMAX 144                                                    // bottom of stage
 #define COLLISION_MAP_SIZE collision_mapWidth *collision_mapHeight  // calculate size of the collision map array
 #define ballSpdY 2                                                  // speed of ball
 #define PADDLE_INITX 68
 #define PADDLE_INITY 120
+#define BALL_INITY (PADDLE_INITY - ball_HEIGHT)
 
 extern const unsigned char collision_map[];  // ? do I need this here?
 
@@ -95,9 +97,10 @@ void main() {
 
     PADDLE.x = PADDLE_INITX;  // dead center for PADDLE (-12 offset from 80)
     PADDLE.y = PADDLE_INITY;  // 120
-    BALL.y = PADDLE.y - 8;
+    BALL.y = BALL_INITY;
+    BALL.x = PADDLE.x;
 
-    BALL.SpdY = ballSpdY;  // 2
+    // BALL.SpdY = ballSpdY;  // 2
 
     while (1) {
         last_joy = joy;
@@ -110,12 +113,19 @@ void main() {
         }
         if (CHANGED_BUTTONS & J_A && !ball_moving) {
             ball_moving = TRUE;  // ball is moving, not in spawn position
+            BALL.SpdY = ballSpdY;
         }
         if (ball_moving) {
             collision_check(BALL.x, BALL.y);                                                              // check for brick collisions
             BALL.y -= BALL.SpdY;                                                                          // move ball vertically
-            if (BALL.y + ball_HEIGHT >= YMIN && BALL.x >= PADDLE.x && BALL.x <= PADDLE.x + paddle_WIDTH)  // check for paddle collision
+            if (BALL.y + ball_HEIGHT == YMIN && BALL.x >= PADDLE.x && BALL.x <= PADDLE.x + paddle_WIDTH)  // check for paddle collision
                 BALL.SpdY = -BALL.SpdY;
+            if (BALL.y >= 144) {
+                BALL.SpdY = BALL.SpdX = 0;
+                BALL.y = BALL_INITY;
+                BALL.x = PADDLE.x;
+                ball_moving = FALSE;
+            }
         } else {                // spawn
             BALL.x = PADDLE.x;  // ball spawns on paddle, follows paddle until player launches ball by pressing A
         }
