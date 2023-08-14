@@ -66,17 +66,17 @@ void main() {
     NR51_REG = 0xFF;
     NR50_REG = 0x77;
 
-    load_sprites();
-    copy_collision_data();
+    load_sprites();  // load all sprite tiles into VRAM
+    // copy_collision_data(); //copy collision map array from ROM to RAM
     set_bkg_data(1, 1, black);      // load black tile;
     fill_bkg_rect(0, 0, 20, 6, 1);  // draw a column of black tiles over the screen to visualize scroll
 
     // set some arbitrary scroll offsets for some lines
 
     DISABLE_VBL_TRANSFER;
-    OBP0_REG = 0b11100100;
-    OBP1_REG = 0b10011100;
-    SPRITES_8x8;  // MUST be 8x16 or 8x8. Can change in different scenes only
+    OBP0_REG = 0b11100100;  // color pallette
+    OBP1_REG = 0b10011100;  // color pallette
+    SPRITES_8x8;            // MUST be 8x16 or 8x8. Can change in different scenes only
     SHOW_BKG;
     SHOW_SPRITES;
     DISPLAY_ON;
