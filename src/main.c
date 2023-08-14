@@ -11,6 +11,8 @@
 
 extern const unsigned char collision_map[];
 
+const unsigned char blank_tile[1] = {0x00};
+
 UINT8 joy, last_joy;  // CHECKS FOR CURRENT AND PREVIOUS JOY INPUTS IN MAIN WHILE()
 
 GameCharacter_t PADDLE;
@@ -18,6 +20,7 @@ GameCharacter_t BALL;
 
 UBYTE ball_moving;
 #define COLLISION_MAP_SIZE collision_mapWidth *collision_mapHeight
+#define ballSpdY 2
 unsigned char collision_map_ram[COLLISION_MAP_SIZE];  // ROM to WRAM copy of collision_map
 
 void load_sprites() {
@@ -27,6 +30,26 @@ void load_sprites() {
     set_sprite_tile(1, 0x00);                                         // set paddle sprite in OAM
     // hiwater += 3;                                                    // raise OAM hiwater for next OAM sprite (sizeof(paddle_tiles) >> 4)
     set_sprite_tile(3, 0x02);  // set ball sprite in OAM
+}
+void copy_collision_data()  // copy ROM to WRAM
+{
+    unsigned char *ram_pointer = collision_map_ram;  // point to the ROM collision map data
+    memcpy(ram_pointer, collision_map, COLLISION_MAP_SIZE);
+}
+
+void collision_check(UINT8 ballx, UINT8 bally) {
+    UINT8 topy, leftx;                              // 0-255
+    UINT16 tileindex;                               // 16 bit integer
+    topy = bally / 8;                               // pixels to tiles y
+    leftx = ballx / 8;                              // pixels to tiles x
+    tileindex = collision_mapWidth * topy + leftx;  // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
+
+    if (collision_map_ram[tileindex] == 0x01) {
+        // ball_moving = FALSE;
+        BALL.SpdY = -ballSpdY;                         // -2
+        set_bkg_tiles(leftx, topy, 1, 1, blank_tile);  // x, y, tile width, tile height, unsigned char tile[]{}
+        collision_map_ram[tileindex] = 0x00;
+    }
 }
 
 BYTE overlap(INT16 r1_y, INT16 r1_x, INT16 l1_y, INT16 l1_x, INT16 r2_y, INT16 r2_x, INT16 l2_y, INT16 l2_x) {  // BYTE IS SAME AS BOOLEAN (ONLY SHORTER NAME)
@@ -46,22 +69,6 @@ BYTE overlap(INT16 r1_y, INT16 r1_x, INT16 l1_y, INT16 l1_x, INT16 r2_y, INT16 r
     return 0x01U;
 }
 
-void copy_collision_data()  // copy ROM to WRAM
-{
-    unsigned char *ram_pointer = collision_map_ram;  // point to the ROM collision map data
-    memcpy(ram_pointer, collision_map, COLLISION_MAP_SIZE);
-}
-
-void collision_check(UINT8 ballx, UINT8 bally) {
-    UINT8 topy, leftx;                              // 0-255
-    UINT16 tileindex;                               // 16 bit integer
-    topy = bally / 8;                               // pixels to tiles y
-    leftx = ballx / 8;                              // pixels to tiles x
-    tileindex = collision_mapWidth * topy + leftx;  // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
-
-    if (collision_map_ram[tileindex] == 0x01)
-        ball_moving = FALSE;
-}
 void main() {
     NR52_REG = 0x80;
     NR51_REG = 0xFF;
@@ -87,7 +94,7 @@ void main() {
     BALL.x = 0;
     BALL.y = PADDLE.y - 8;
 
-    BALL.SpdY = 2;
+    BALL.SpdY = ballSpdY;  // 2
 
     while (1) {
         last_joy = joy;
@@ -106,8 +113,9 @@ void main() {
         if (ball_moving) {
             collision_check(BALL.x, BALL.y);
             BALL.y -= BALL.SpdY;
+        } else {
+            BALL.x = PADDLE.x;  // ball follows paddle until player presses A to launch ball
         }
-        BALL.x = PADDLE.x;
         move_metasprite(PADDLE_METASPRITE, 0x00, 0, PADDLE.x, PADDLE.y);
         move_metasprite(BALL_METASPRITE, 0x02, 3, BALL.x, BALL.y);
 
