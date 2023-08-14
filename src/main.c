@@ -8,10 +8,14 @@
 
 #define PADDLE_METASPRITE paddle_metasprites[0]
 #define BALL_METASPRITE ball_metasprites[0]
-#define YMIN 120                                                    // ball Y when touching paddle
+#define PADDLEY 120                                                 // ball Y when touching paddle
+#define YMIN 0                                                      // top of stage
 #define YMAX 144                                                    // bottom of stage
+#define XMIN 0                                                      // left edge of stage
+#define XMAX (160 - ball_WIDTH)                                     // right edge of stage
 #define COLLISION_MAP_SIZE collision_mapWidth *collision_mapHeight  // calculate size of the collision map array
-#define ballSpdY 2                                                  // speed of ball
+#define BALLSPDY 2                                                  // speed of ball
+#define PADDLESPDX 1
 #define PADDLE_INITX 68
 #define PADDLE_INITY 120
 #define BALL_INITY (PADDLE_INITY - ball_HEIGHT)
@@ -58,6 +62,13 @@ void collision_check(UINT8 ballx, UINT8 bally) {    // check for ball collision 
     }
 }
 
+void ball_reset() {
+    BALL.SpdY = BALL.SpdX = 0;
+    BALL.y = BALL_INITY;
+    BALL.x = PADDLE.x;
+    ball_moving = FALSE;
+}
+
 BYTE overlap(INT16 r1_y, INT16 r1_x, INT16 l1_y, INT16 l1_x, INT16 r2_y, INT16 r2_x, INT16 l2_y, INT16 l2_x) {  // BYTE IS SAME AS BOOLEAN (ONLY SHORTER NAME)
     // Standard rectangle-to-rectangle collision check
 
@@ -100,35 +111,41 @@ void main() {
     BALL.y = BALL_INITY;
     BALL.x = PADDLE.x;
 
-    // BALL.SpdY = ballSpdY;  // 2
-
     while (1) {
         last_joy = joy;
         joy = joypad();
 
         if (joy & J_LEFT) {
-            PADDLE.x -= 1;  // MOVE PADDLE LEFT
+            PADDLE.SpdX = -PADDLESPDX;
+            PADDLE.x += PADDLE.SpdX;  // move paddle left
         } else if (joy & J_RIGHT) {
-            PADDLE.x += 1;  // MOVE PADDLE RIGHT
-        }
+            PADDLE.SpdX = PADDLESPDX;
+            PADDLE.x += PADDLE.SpdX;  // move paddle right
+        } else
+            PADDLE.SpdX = 0;  // not moving paddle
+
         if (CHANGED_BUTTONS & J_A && !ball_moving) {
-            ball_moving = TRUE;  // ball is moving, not in spawn position
-            BALL.SpdY = ballSpdY;
+            ball_moving = TRUE;       // ball is moving, not in spawn position
+            BALL.SpdY = -BALLSPDY;    // launch speed
+            BALL.SpdX = PADDLE.SpdX;  // launch speed, if paddle is moving
         }
         if (ball_moving) {
-            collision_check(BALL.x, BALL.y);                                                              // check for brick collisions
-            BALL.y -= BALL.SpdY;                                                                          // move ball vertically
-            if (BALL.y + ball_HEIGHT == YMIN && BALL.x >= PADDLE.x && BALL.x <= PADDLE.x + paddle_WIDTH)  // check for paddle collision
-                BALL.SpdY = -BALL.SpdY;
-            if (BALL.y >= 144) {
-                BALL.SpdY = BALL.SpdX = 0;
-                BALL.y = BALL_INITY;
-                BALL.x = PADDLE.x;
-                ball_moving = FALSE;
-            }
-        } else {                // spawn
+            if (BALL.SpdY > 0 && BALL.y + ball_HEIGHT == PADDLEY && (BALL.x + ball_WIDTH) >= PADDLE.x && BALL.x <= PADDLE.x + paddle_WIDTH)  // check for paddle collision, only when it is moving downward toward paddle
+                BALL.SpdY = -BALL.SpdY;                                                                                                      // reverse Y speed
+            if (BALL.y >= YMAX || BALL.y <= YMIN)                                                                                            // if ball reaches bottom of the stage
+                ball_reset();                                                                                                                // reset ball to spawn position on paddle
+            if (BALL.x >= XMAX && BALL.SpdX > 0)
+                BALL.SpdX = -BALL.SpdX;
+            else if (BALL.x <= XMIN)
+                BALL.SpdX = -BALL.SpdX;
+
+            collision_check(BALL.x, BALL.y);  // check for brick collisions
+
+        } else {                // ball is on paddle, follow paddle
             BALL.x = PADDLE.x;  // ball spawns on paddle, follows paddle until player launches ball by pressing A
         }
+        BALL.y += BALL.SpdY;                                              // move ball vertically
+        BALL.x += BALL.SpdX;                                              // move ball horizontally
         move_metasprite(PADDLE_METASPRITE, 0x00, 0, PADDLE.x, PADDLE.y);  // update position on screen
         move_metasprite(BALL_METASPRITE, 0x02, 3, BALL.x, BALL.y);        // update position on screen
 

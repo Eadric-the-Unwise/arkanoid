@@ -44,7 +44,7 @@ typedef struct GameCharacter_t {
     // UBYTE flash;
     UINT8 x;
     UINT8 y;
-    INT16 SpdX;  // ?
+    INT8 SpdX;  // ?
     INT8 SpdY;
     // position_e position;
     // direction_e direction;
