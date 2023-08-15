@@ -4,6 +4,7 @@
 
 #include "../res/tiles/arkanoid_tiles.h"
 #include "../res/tiles/ball.h"
+#include "../res/tiles/bkg_map.h"
 #include "../res/tiles/black.h"
 #include "../res/tiles/collision_map.h"
 #include "../res/tiles/paddle.h"
@@ -42,8 +43,8 @@
 typedef struct GameCharacter_t {
     // UBYTE spawn;
     // UBYTE flash;
-    UINT8 x;
-    UINT8 y;
+    INT16 x;
+    INT16 y;
     INT8 SpdX;  // ?
     INT8 SpdY;
     // position_e position;

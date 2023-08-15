@@ -18,6 +18,8 @@
 #define PADDLESPDX 1
 #define PADDLE_INITX 68
 #define PADDLE_INITY 120
+#define PADDLE_MINX 0
+#define PADDLE_MAXX (160 - paddle_WIDTH)
 #define BALL_INITY (PADDLE_INITY - ball_HEIGHT)
 
 extern const unsigned char collision_map[];  // ? do I need this here?
@@ -47,18 +49,29 @@ void copy_collision_data()  // copy ROM to WRAM
     memcpy(ram_pointer, collision_map, COLLISION_MAP_SIZE);
 }
 
-void collision_check(UINT8 ballx, UINT8 bally) {    // check for ball collision with bricks
-    UINT8 topy, leftx;                              // 0-255
-    UINT16 tileindex;                               // 16 bit integer
-    topy = bally / 8;                               // pixels to tiles y
-    leftx = ballx / 8;                              // pixels to tiles x
-    tileindex = collision_mapWidth * topy + leftx;  // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
+void collision_check(UINT8 ballx, UINT8 bally) {  // check for ball collision with bricks
+    UINT8 x_tile, y_tile, x_offset, y_offset;     // 0-255
+    UINT16 tileindex;                             // 16 bit integer
+
+    // // calculate where the ball is moving, and which side of the ball to check for brick collisions
+    if (BALL.SpdX > 0)
+        x_offset = ball_WIDTH;  // right side of ball
+    else
+        x_offset = 0;  // left side of ball
+    if (BALL.SpdY > 0)
+        y_offset = ball_HEIGHT;  // bottom side of ball
+    else
+        y_offset = 0;  // top side of ball
+
+    x_tile = (ballx + x_offset) / 8;                   // pixels to tiles x
+    y_tile = (bally + y_offset) / 8;                   // pixels to tiles y
+    tileindex = collision_mapWidth * y_tile + x_tile;  // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
 
     if (collision_map_ram[tileindex] == 0x01) {  // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
         // ball_moving = FALSE;
-        BALL.SpdY = -BALL.SpdY;                        // reverse ball speed
-        set_bkg_tiles(leftx, topy, 1, 1, blank_tile);  // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x, y, tile width, tile height, unsigned char tile[]{}
-        collision_map_ram[tileindex] = 0x00;           // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        BALL.SpdY = -BALL.SpdY;                           // reverse ball speed
+        set_bkg_tiles(x_tile, y_tile, 1, 1, blank_tile);  // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
+        collision_map_ram[tileindex] = 0x00;              // UPDATE BRICK TO BECOME BLANK IN WRAM //
     }
 }
 
@@ -91,10 +104,10 @@ void main() {
     NR51_REG = 0xFF;
     NR50_REG = 0x77;
 
-    load_sprites();                 // load all sprite tiles into VRAM
-    copy_collision_data();          // copy collision map array from ROM to RAM
-    set_bkg_data(1, 1, black);      // load black tile;
-    fill_bkg_rect(0, 0, 20, 6, 1);  // draw a column of black tiles over the screen to visualize scroll
+    load_sprites();             // load all sprite tiles into VRAM
+    copy_collision_data();      // copy collision map array from ROM to RAM
+    set_bkg_data(1, 1, black);  // load black tile;
+    set_bkg_tiles(0, 0, bkg_mapWidth, bkg_mapHeight, bkg_map);
 
     // set some arbitrary scroll offsets for some lines
 
@@ -117,10 +130,14 @@ void main() {
 
         if (joy & J_LEFT) {
             PADDLE.SpdX = -PADDLESPDX;
-            PADDLE.x += PADDLE.SpdX;  // move paddle left
+            PADDLE.x += PADDLE.SpdX;     // move paddle left
+            if (PADDLE.x < PADDLE_MINX)  // check left edges for paddle
+                PADDLE.x = PADDLE_MINX;
         } else if (joy & J_RIGHT) {
             PADDLE.SpdX = PADDLESPDX;
-            PADDLE.x += PADDLE.SpdX;  // move paddle right
+            PADDLE.x += PADDLE.SpdX;      // move paddle right
+            if (PADDLE.x >= PADDLE_MAXX)  // check right edges for paddle
+                PADDLE.x = PADDLE_MAXX;
         } else
             PADDLE.SpdX = 0;  // not moving paddle
 
@@ -132,9 +149,11 @@ void main() {
         if (ball_moving) {
             if (BALL.SpdY > 0 && BALL.y + ball_HEIGHT == PADDLEY && (BALL.x + ball_WIDTH) >= PADDLE.x && BALL.x <= PADDLE.x + paddle_WIDTH)  // check for paddle collision, only when it is moving downward toward paddle
                 BALL.SpdY = -BALL.SpdY;                                                                                                      // reverse Y speed
-            if (BALL.y >= YMAX || BALL.y <= YMIN)                                                                                            // if ball reaches bottom of the stage
-                ball_reset();                                                                                                                // reset ball to spawn position on paddle
-            if (BALL.x >= XMAX && BALL.SpdX > 0)
+            if (BALL.y >= YMAX)                                                                                                              // if ball reaches bottom of the stage
+                ball_reset();
+            else if (BALL.y <= YMIN)
+                BALL.SpdY = -BALL.SpdY;  // reset ball to spawn position on paddle
+            if (BALL.x >= XMAX)
                 BALL.SpdX = -BALL.SpdX;
             else if (BALL.x <= XMIN)
                 BALL.SpdX = -BALL.SpdX;
@@ -144,6 +163,7 @@ void main() {
         } else {                // ball is on paddle, follow paddle
             BALL.x = PADDLE.x;  // ball spawns on paddle, follows paddle until player launches ball by pressing A
         }
+
         BALL.y += BALL.SpdY;                                              // move ball vertically
         BALL.x += BALL.SpdX;                                              // move ball horizontally
         move_metasprite(PADDLE_METASPRITE, 0x00, 0, PADDLE.x, PADDLE.y);  // update position on screen

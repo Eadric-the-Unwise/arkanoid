@@ -1,6 +1,6 @@
 /*
 
- COLLISION_MAP.C
+ BKG_MAP.C
 
  Map Source File.
 
@@ -18,11 +18,11 @@
 
 */
 
-#define collision_mapWidth 32
-#define collision_mapHeight 32
-#define collision_mapBank 0
+#define bkg_mapWidth 32
+#define bkg_mapHeight 32
+#define bkg_mapBank 0
 
-const unsigned char collision_map[] =
+const unsigned char bkg_map[] =
 {
   0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
   0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
@@ -129,4 +129,4 @@ const unsigned char collision_map[] =
   0x00,0x00,0x00,0x00
 };
 
-/* End of COLLISION_MAP.C */
+/* End of BKG_MAP.C */
