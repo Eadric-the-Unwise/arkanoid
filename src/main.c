@@ -49,29 +49,54 @@ void copy_collision_data()  // copy ROM to WRAM
     memcpy(ram_pointer, collision_map, COLLISION_MAP_SIZE);
 }
 
-void collision_check(UINT8 ballx, UINT8 bally) {  // check for ball collision with bricks
-    UINT8 x_tile, y_tile, x_offset, y_offset;     // 0-255
-    UINT16 tileindex;                             // 16 bit integer
+// void collision_check(UINT8 ballx, UINT8 bally) {  // check for ball collision with bricks
+//     UINT8 x_tile, y_tile, x_offset, y_offset;     // 0-255
+//     UINT16 tileindex;                             // 16 bit integer
 
-    // // calculate where the ball is moving, and which side of the ball to check for brick collisions
-    if (BALL.SpdX > 0)
-        x_offset = ball_WIDTH;  // right side of ball
-    else
-        x_offset = 0;  // left side of ball
-    if (BALL.SpdY > 0)
-        y_offset = ball_HEIGHT;  // bottom side of ball
-    else
-        y_offset = 0;  // top side of ball
+//     // // calculate where the ball is moving, and which side of the ball to check for brick collisions
+//     if (BALL.SpdX > 0)
+//         x_offset = ball_WIDTH;  // right side of ball
+//     else
+//         x_offset = 0;  // left side of ball
+//     if (BALL.SpdY > 0)
+//         y_offset = ball_HEIGHT;  // bottom side of ball
+//     else
+//         y_offset = 0;  // top side of ball
 
-    x_tile = (ballx + x_offset) / 8;                   // pixels to tiles x
-    y_tile = (bally + y_offset) / 8;                   // pixels to tiles y
-    tileindex = collision_mapWidth * y_tile + x_tile;  // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
+//     x_tile = (ballx + x_offset) / 8;                   // pixels to tiles x
+//     y_tile = (bally + y_offset) / 8;                   // pixels to tiles y
+//     tileindex = collision_mapWidth * y_tile + x_tile;  // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
 
-    if (collision_map_ram[tileindex] == 0x01) {  // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
+//     if (collision_map_ram[tileindex] == 0x01) {  // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
+//         // ball_moving = FALSE;
+//         BALL.SpdY = -BALL.SpdY;                           // reverse ball speed
+//         set_bkg_tiles(x_tile, y_tile, 1, 1, blank_tile);  // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
+//         collision_map_ram[tileindex] = 0x00;              // UPDATE BRICK TO BECOME BLANK IN WRAM //
+//     }
+// }
+
+void collision_check(UINT8 ballx, UINT8 bally) {                           // check for ball collision with bricks
+    UINT8 TL_x_tile, TR_x_tile, TL_y_tile, BL_y_tile, x_offset, y_offset;  // 0-255
+    UINT16 tileindex_TL, tileindex_TR, tileindex_BL, tileindex_BR;         // 16 bit integer
+
+    x_offset = ball_WIDTH;   // right side of ball
+    y_offset = ball_HEIGHT;  // bottom side of ball
+
+    TL_x_tile = (ballx) / 8;             // pixels to tiles x
+    TR_x_tile = (ballx + x_offset) / 8;  // pixels to tiles x
+
+    TL_y_tile = (bally) / 8;  // pixels to tiles y
+    BL_y_tile = (bally + y_offset) / 8;
+    tileindex_TL = collision_mapWidth * TL_y_tile + TL_x_tile;  // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
+    tileindex_TR = collision_mapWidth * TL_y_tile + TR_x_tile;
+    tileindex_BL = collision_mapWidth * BL_y_tile + TL_x_tile;
+    tileindex_BR = collision_mapWidth * BL_y_tile + TR_x_tile;
+
+    if (collision_map_ram[tileindex_TL] == 0x01) {  // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
         // ball_moving = FALSE;
-        BALL.SpdY = -BALL.SpdY;                           // reverse ball speed
-        set_bkg_tiles(x_tile, y_tile, 1, 1, blank_tile);  // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
-        collision_map_ram[tileindex] = 0x00;              // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        BALL.SpdY = -BALL.SpdY;                                 // reverse ball speed
+        set_bkg_tiles(TL_x_tile, TL_y_tile, 1, 1, blank_tile);  // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
+        collision_map_ram[tileindex_TL] = 0x00;                 // UPDATE BRICK TO BECOME BLANK IN WRAM //
     }
 }
 
