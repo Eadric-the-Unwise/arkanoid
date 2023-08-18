@@ -31,7 +31,7 @@ UINT8 joy, last_joy; // CHECKS FOR CURRENT AND PREVIOUS JOY INPUTS IN MAIN WHILE
 GameCharacter_t PADDLE;
 GameCharacter_t BALL;
 
-UBYTE ball_moving, reverse_spdx;
+UBYTE ball_moving, reverse_spdx, reverse_spdy;
 
 unsigned char collision_map_ram[COLLISION_MAP_SIZE]; // ROM to WRAM copy of collision_map
 
@@ -94,40 +94,45 @@ void collision_check_y(UINT8 ballx, UINT8 bally)
     tileindex_BL = collision_mapWidth * BL_y_tile + TL_x_tile;
     tileindex_BR = collision_mapWidth * BL_y_tile + TR_x_tile;
 
-    if (collision_map_ram[tileindex_TL] == 0x01 && collision_map_ram[tileindex_TR] == 0x01)
-    {
-        BALL.SpdY = -BALL.SpdY;                                // reverse ball speed
-        set_bkg_tiles(TL_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
-        collision_map_ram[tileindex_TL] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
-        set_bkg_tiles(TR_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
-        collision_map_ram[tileindex_TR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
-    }
+    // if (collision_map_ram[tileindex_TL] == 0x01 && collision_map_ram[tileindex_TR] == 0x01)
+    // {
+    //     BALL.SpdY = -BALL.SpdY;                                // reverse ball speed
+    //     set_bkg_tiles(TL_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
+    //     collision_map_ram[tileindex_TL] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+    //     set_bkg_tiles(TR_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
+    //     collision_map_ram[tileindex_TR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+    // }
 
-    else if (collision_map_ram[tileindex_TL] == 0x01)
+    // else
+    if (collision_map_ram[tileindex_TL] == 0x01)
     { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
         // ball_moving = FALSE;
-        BALL.SpdY = -BALL.SpdY;                                // reverse ball speed
+        if (!reverse_spdy)
+            reverse_spdy = TRUE;                               // reverse ball speed
         set_bkg_tiles(TL_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
         collision_map_ram[tileindex_TL] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
     }
-    else if (collision_map_ram[tileindex_TR] == 0x01)
+    else if (collision_map_ram[tileindex_BL] == 0x01)
     { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
-        // ball_moving = FALSE;
-        BALL.SpdY = -BALL.SpdY;                                // reverse ball speed
-        set_bkg_tiles(TR_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
-        collision_map_ram[tileindex_TR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
-    }
-    if (collision_map_ram[tileindex_BL] == 0x01)
-    { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
-        // ball_moving = FALSE;
-        BALL.SpdY = -BALL.SpdY;                                // reverse ball speed
+      // ball_moving = FALSE;
+        if (!reverse_spdy)
+            reverse_spdy = TRUE;                               // reverse ball speed
         set_bkg_tiles(TL_x_tile, BL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
         collision_map_ram[tileindex_BL] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
     }
-    if (collision_map_ram[tileindex_BR] == 0x01)
+    if (collision_map_ram[tileindex_TR] == 0x01)
+    { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
+      // ball_moving = FALSE;
+        if (!reverse_spdy)
+            reverse_spdy = TRUE;                               // reverse ball speed
+        set_bkg_tiles(TR_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
+        collision_map_ram[tileindex_TR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+    }
+    else if (collision_map_ram[tileindex_BR] == 0x01)
     { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
         // ball_moving = FALSE;
-        BALL.SpdY = -BALL.SpdY;                                // reverse ball speed
+        if (!reverse_spdy)
+            reverse_spdy = TRUE;                               // reverse ball speed
         set_bkg_tiles(TR_x_tile, BL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
         collision_map_ram[tileindex_BR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
     }
@@ -150,36 +155,43 @@ void collision_check_x(UINT8 ballx, UINT8 bally)
     tileindex_BL = collision_mapWidth * BL_y_tile + TL_x_tile;
     tileindex_BR = collision_mapWidth * BL_y_tile + TR_x_tile;
 
-    if (collision_map_ram[tileindex_TL] == 0x01)
-    { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
-        if (!reverse_spdx)
-            reverse_spdx = TRUE;
-        set_bkg_tiles(TL_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
-        collision_map_ram[tileindex_TL] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
-    }
-    else if (collision_map_ram[tileindex_TR] == 0x01)
-    { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
+    if (BALL.SpdX > 0) // moving right
+    {
+        if (collision_map_ram[tileindex_TR] == 0x01)
+        { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
 
-        if (!reverse_spdx)
-            reverse_spdx = TRUE;                               // reverse ball speed
-        set_bkg_tiles(TR_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
-        collision_map_ram[tileindex_TR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
-    }
-    if (collision_map_ram[tileindex_BL] == 0x01)
-    { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
+            if (!reverse_spdx)
+                reverse_spdx = TRUE;                               // reverse ball speed
+            set_bkg_tiles(TR_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
+            collision_map_ram[tileindex_TR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        }
+        if (collision_map_ram[tileindex_BR] == 0x01)
+        { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
 
-        if (!reverse_spdx)
-            reverse_spdx = TRUE;                               // reverse ball speed
-        set_bkg_tiles(TL_x_tile, BL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
-        collision_map_ram[tileindex_BL] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+            if (!reverse_spdx)
+                reverse_spdx = TRUE;                               // reverse ball speed
+            set_bkg_tiles(TR_x_tile, BL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
+            collision_map_ram[tileindex_BR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        }
     }
-    else if (collision_map_ram[tileindex_BR] == 0x01)
-    { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
+    else if (BALL.SpdX < 0)
+    { // moving left
 
-        if (!reverse_spdx)
-            reverse_spdx = TRUE;                               // reverse ball speed
-        set_bkg_tiles(TR_x_tile, BL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
-        collision_map_ram[tileindex_BR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        if (collision_map_ram[tileindex_TL] == 0x01)
+        { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
+            if (!reverse_spdx)
+                reverse_spdx = TRUE;
+            set_bkg_tiles(TL_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
+            collision_map_ram[tileindex_TL] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        }
+        if (collision_map_ram[tileindex_BL] == 0x01)
+        { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
+
+            if (!reverse_spdx)
+                reverse_spdx = TRUE;                               // reverse ball speed
+            set_bkg_tiles(TL_x_tile, BL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
+            collision_map_ram[tileindex_BL] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        }
     }
 }
 
@@ -280,7 +292,7 @@ void main()
                 BALL.SpdX = -BALL.SpdX;
 
             collision_check_x(BALL.x, BALL.y); // check for brick collisions x
-            // collision_check_y(BALL.x, BALL.y); // check for brick collisions y
+            collision_check_y(BALL.x, BALL.y); // check for brick collisions y
         }
         else
         {                      // ball is on paddle, follow paddle
@@ -290,6 +302,11 @@ void main()
         { // reverse x speed, this triggers when there is any x collision (see collision_check_x();)
             BALL.SpdX = -BALL.SpdX;
             reverse_spdx = FALSE;
+        }
+        if (reverse_spdy)
+        { // reverse x speed, this triggers when there is any x collision (see collision_check_x();)
+            BALL.SpdY = -BALL.SpdY;
+            reverse_spdy = FALSE;
         }
         BALL.y += BALL.SpdY;                                             // move ball vertically
         BALL.x += BALL.SpdX;                                             // move ball horizontally
