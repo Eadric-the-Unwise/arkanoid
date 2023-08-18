@@ -141,26 +141,26 @@ void ball_reset()
     ball_moving = FALSE;
 }
 
-BYTE overlap(INT16 r1_y, INT16 r1_x, INT16 l1_y, INT16 l1_x, INT16 r2_y, INT16 r2_x, INT16 l2_y, INT16 l2_x)
-{ // BYTE IS SAME AS BOOLEAN (ONLY SHORTER NAME)
-    // Standard rectangle-to-rectangle collision check
+// BYTE overlap(INT16 r1_y, INT16 r1_x, INT16 l1_y, INT16 l1_x, INT16 r2_y, INT16 r2_x, INT16 l2_y, INT16 l2_x)
+// { // BYTE IS SAME AS BOOLEAN (ONLY SHORTER NAME)
+//     // Standard rectangle-to-rectangle collision check
 
-    if (l1_x == r1_x || l1_y == r1_y || l2_x == r2_x || l2_y == r2_y)
-    {
-        // the line cannot have positive overlap
-        return 0x00U;
-    }
-    if ((l1_x >= r2_x) || (l2_x >= r1_x))
-    {
-        return 0x00U;
-    }
-    if ((r1_y >= l2_y) || (r2_y >= l1_y))
-    {
-        return 0X00U;
-    }
+//     if (l1_x == r1_x || l1_y == r1_y || l2_x == r2_x || l2_y == r2_y)
+//     {
+//         // the line cannot have positive overlap
+//         return 0x00U;
+//     }
+//     if ((l1_x >= r2_x) || (l2_x >= r1_x))
+//     {
+//         return 0x00U;
+//     }
+//     if ((r1_y >= l2_y) || (r2_y >= l1_y))
+//     {
+//         return 0X00U;
+//     }
 
-    return 0x01U;
-}
+//     return 0x01U;
+// }
 
 void main()
 {

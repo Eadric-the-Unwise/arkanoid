@@ -28,9 +28,9 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      00000007  l__HEADER |    00000008  l__HEADER |    0000000C  l__GSINIT
      00000030  l__HEADER |    0000004C  l__HEADER |    0000005C  l__CODE_1
      00000084  l__HEADER |    0000017D  l__HOME   |    00000200  s__CODE  
-     00000423  l__DATA   |    00000EF4  l__CODE   |    000010F4  s__HOME  
-     00001271  s__BASE   |    00001271  s__CODE_0 |    00001271  s__INITIA
-     00001271  s__LIT    |    00001273  s__GSINIT |    0000127F  s__GSFINA
+     00000423  l__DATA   |    00000E28  l__CODE   |    00001028  s__HOME  
+     000011A5  s__BASE   |    000011A5  s__CODE_0 |    000011A5  s__INITIA
+     000011A5  s__LIT    |    000011A7  s__GSINIT |    000011B3  s__GSFINA
      00002000  _rROMB0   |    00003000  _rROMB1   |    00004000  _rRAMB   
      00008000  __VRAM    |    00008000  __VRAM800 |    00008800  __VRAM880
      00009000  __VRAM900 |    00009800  __SCRN0   |    00009C00  __SCRN1  
@@ -73,15 +73,15 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    00000EF4 =        3828. bytes (REL,CON)
+_CODE                  00000200    00000E28 =        3624. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
      00000200  _load_spr |    00000225  _blank_ti |    00000226  _copy_col
-     00000234  _collisio |    0000048F  _ball_res |    000004B3  _overlap 
-     0000057F  _main     |    00000843  _arkanoid |    00000863  _bkg_map 
-     00000C63  _black    |    00000C83  _collisio |    00001083  ___move_m
-     000010C2  ___memcpy |    000010C2  _memcpy  
+     00000234  _collisio |    0000048F  _ball_res |    000004B3  _main    
+     00000777  _arkanoid |    00000797  _bkg_map  |    00000B97  _black   
+     00000BB7  _collisio |    00000FB7  ___move_m |    00000FF6  ___memcpy
+     00000FF6  _memcpy  
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
@@ -256,25 +256,25 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_HOME                  000010F4    0000017D =         381. bytes (REL,CON)
+_HOME                  00001028    0000017D =         381. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     000010F4  .memset_s |    000010FD  .memcpy_s |    0000111A  .remove_V
-     0000111D  .remove_i |    0000113A  .add_VBL  |    0000113D  .add_int 
-     00001148  .wait_vbl |    00001148  _wait_vbl |    00001158  .display_
-     00001158  _display_ |    00001170  _remove_V |    0000117B  _add_VBL 
-     00001186  _set_tile |    0000118B  _set_bkg_ |    0000118B  _set_win_
-     00001193  _set_spri |    000011C3  .padup    |    000011C3  _waitpadu
-     000011D3  .jpad     |    000011D3  _joypad   |    000011FB  _waitpad 
-     000011FC  .wait_pad |    00001203  _set_bkg_ |    00001217  .set_xy_w
-     00001220  .set_xy_b |    0000122F  .set_xy_t
+     00001028  .memset_s |    00001031  .memcpy_s |    0000104E  .remove_V
+     00001051  .remove_i |    0000106E  .add_VBL  |    00001071  .add_int 
+     0000107C  .wait_vbl |    0000107C  _wait_vbl |    0000108C  .display_
+     0000108C  _display_ |    000010A4  _remove_V |    000010AF  _add_VBL 
+     000010BA  _set_tile |    000010BF  _set_bkg_ |    000010BF  _set_win_
+     000010C7  _set_spri |    000010F7  .padup    |    000010F7  _waitpadu
+     00001107  .jpad     |    00001107  _joypad   |    0000112F  _waitpad 
+     00001130  .wait_pad |    00001137  _set_bkg_ |    0000114B  .set_xy_w
+     00001154  .set_xy_b |    00001163  .set_xy_t
 ASxxxx Linker V03.00 + NoICE + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZER           00001271    00000002 =           2. bytes (REL,CON)
+_INITIALIZER           000011A5    00000002 =           2. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -283,17 +283,17 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSINIT                00001273    0000000C =          12. bytes (REL,CON)
+_GSINIT                000011A7    0000000C =          12. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00001273  gsinit   
+     000011A7  gsinit   
 ASxxxx Linker V03.00 + NoICE + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSFINAL               0000127F    00000001 =           1. bytes (REL,CON)
+_GSFINAL               000011B3    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -349,19 +349,19 @@ _CODE_1                00014000    0000005C =          92. bytes (REL,CON)
 Files Linked                              [ module(s) ]
 
 C:\c_code\gbdk\lib/gb/crt0.o              [ Runtime ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc76960.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc230200.rel
                                           [ main ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc76961.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc230201.rel
                                           [ arkanoid_tiles ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc76962.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc230202.rel
                                           [ ball ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc76963.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc230203.rel
                                           [ bkg_map ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc76964.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc230204.rel
                                           [ black ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc76965.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc230205.rel
                                           [ collision_map ]
-C:\Users\EMART~1\AppData\Local\Temp/lcc76966.rel
+C:\Users\EMART~1\AppData\Local\Temp/lcc230206.rel
                                           [ paddle ]
 
 
