@@ -76,7 +76,7 @@ void copy_collision_data() // copy ROM to WRAM
 //     }
 // }
 
-void collision_check_y(UINT8 ballx, UINT8 bally)
+BYTE collision_check_y(UINT8 ballx, UINT8 bally)
 {                                                                         // check for ball collision with bricks
     UINT8 TL_x_tile, TR_x_tile, TL_y_tile, BL_y_tile, x_offset, y_offset; // 0-255
     UINT16 tileindex_TL, tileindex_TR, tileindex_BL, tileindex_BR;        // 16 bit integer
@@ -88,6 +88,7 @@ void collision_check_y(UINT8 ballx, UINT8 bally)
     TR_x_tile = (ballx + x_offset) / 8; // pixels to tiles x
     TL_y_tile = (bally) / 8;            // pixels to tiles y
     BL_y_tile = (bally + y_offset) / 8;
+    // how to check for JUST above/below? (+1, -1 above)
 
     tileindex_TL = collision_mapWidth * TL_y_tile + TL_x_tile; // MULTIPLY THE WIDTH BY THE Y TILE TO FIND THE Y ROW. THEN ADD THE X TILE TO SHIFT THE COLUMN. FINDS THE TILE YOU'RE LOOKING FOR
     tileindex_TR = collision_mapWidth * TL_y_tile + TR_x_tile;
@@ -111,6 +112,7 @@ void collision_check_y(UINT8 ballx, UINT8 bally)
             reverse_spdy = TRUE;                               // reverse ball speed
         set_bkg_tiles(TL_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
         collision_map_ram[tileindex_TL] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        return 0x01U;
     }
     else if (collision_map_ram[tileindex_BL] == 0x01)
     { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
@@ -119,7 +121,9 @@ void collision_check_y(UINT8 ballx, UINT8 bally)
             reverse_spdy = TRUE;                               // reverse ball speed
         set_bkg_tiles(TL_x_tile, BL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
         collision_map_ram[tileindex_BL] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        return 0x01U;
     }
+
     if (collision_map_ram[tileindex_TR] == 0x01)
     { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
       // ball_moving = FALSE;
@@ -127,6 +131,7 @@ void collision_check_y(UINT8 ballx, UINT8 bally)
             reverse_spdy = TRUE;                               // reverse ball speed
         set_bkg_tiles(TR_x_tile, TL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
         collision_map_ram[tileindex_TR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        return 0x01U;
     }
     else if (collision_map_ram[tileindex_BR] == 0x01)
     { // if ball touches 0x01 brick, update the WRAM array, then update the bkg_tile visually
@@ -135,7 +140,9 @@ void collision_check_y(UINT8 ballx, UINT8 bally)
             reverse_spdy = TRUE;                               // reverse ball speed
         set_bkg_tiles(TR_x_tile, BL_y_tile, 1, 1, blank_tile); // UPDATE BRICK TO BECOME BLANK VISUALLY ON SCREEN // x tile, y tile, tile width, tile height, unsigned char tile[]{}
         collision_map_ram[tileindex_BR] = 0x00;                // UPDATE BRICK TO BECOME BLANK IN WRAM //
+        return 0x01U;
     }
+    return 0x00U; // if not Y collision, return 0x00 and proceed to X collision checks
 }
 void collision_check_x(UINT8 ballx, UINT8 bally)
 {                                                                         // check for ball collision with bricks
@@ -291,8 +298,9 @@ void main()
             else if (BALL.x <= XMIN)
                 BALL.SpdX = -BALL.SpdX;
 
-            collision_check_x(BALL.x, BALL.y); // check for brick collisions x
+            // if check_y == 0x00, check x?
             collision_check_y(BALL.x, BALL.y); // check for brick collisions y
+            collision_check_x(BALL.x, BALL.y); // check for brick collisions x
         }
         else
         {                      // ball is on paddle, follow paddle
